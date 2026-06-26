@@ -1,0 +1,182 @@
+SQL IDENTIFIERS:
+---------------
+identifiers --  are the names used to identify database objects 
+
+SQL identifiers are names used to identify database objects such as.
+Database names , Table names, Column names, View names, Index names, Constraints, Triggers , Stored procedure.
+
+
+while we Aare declaring an identifiers we have to follow some rules and regulations :--
+
+1.The only allowed characters to declare  identifiers  a-z, A-Z, or 0-9,_, $
+2. must be begin with a letter or underscore( _) .
+3. we cannot declare identifiers with reserved keywords .
+4. spaces are not consider to declare an identifiers .
+5. identifiers are case sensitive.
+6. max length to declare identifiers are 15 characters.
+--------------------------------------------------------------------------------------------------------------------------
+SQL:-- (Structured Query Language)
+----------------------------------
+Structured Query Language(sql) is a standardized programming language specially designed for managing and manipulating relational database .
+it provides declarative syntax that allows user to define what data they want retrieve, insert , update or delete without specifying exactly how database executes these operations.
+
+Type of sql command:-
+1. DDL -- CREATE , ALTER, DROP, TRUNCATE, RENAME
+2.DML -- INSERT , UPDATE , DELETE , LOCK
+3.DCL -- GRANT , REVOKE
+4.TCL -- COMMIT , ROLL BACK, SAVEPOINT
+5.DQL -- SELECT
+------------------------------
+DDL (Data Definition Language)
+--------------------------------
+CREATE: -- by using this command to create a new databases , tables , views , indexes, triggers, stored procedures....etc.
+
+> create database
+______________
+example: -- create database
+syntax: -- create database database-name
+
+> create table
+____________
+create table table-name(
+column-name datatype size constrains -- > constrains is optional, 
+column-name datatype size constrains
+______________________________________
+
+ALTER: -- by using this alter command to modify the structure of an existing database object.
+
+> 
+DROP: -- by using this command we can drop existing database object or table permanently.
+TRUNCATE: -- by using this command to delete all rows present in a table.
+RENAME: -- it is used to rename the table names or column names...etc.
+
+2.DML(Data Manipulation language)
+---------------------------------
+INSERT: -- by using this command we can insert some records into a table.
+UPDATE: -- by using this command we can update the existing records based on some conditions.
+DELETE: -- by using this command we can delete the existing table records based on some conditions.
+LOCK: -- it can be used to control access to a resource , ensuring that only one transaction can access it at time of preventing conflicts
+
+3.DCL (Data Control language)
+-----------------------------
+GRANT: -- this command is used to give specific permission to a user in database, this permission might be include the ability to select or update or delete the data as we as create or drop tables.
+REVOKE : -- revoke command is used to take away granted permissions from users.
+
+4.TCL(Transaction Control Language)
+-----------------------------------
+COMMIT : -- this command is used to permanently save the changes may during the current transaction, once transaction is committed it   changes became permanent and visible ton other transactions.
+ROOLBACK : -- if an error occurs or if transaction needs to be cancel for any reason rollback is issued to revert the database
+>in simple it is used to undo operations changes made during the current transaction.
+SAVEPOINT: -- it is used to set a point within a transaction who which you can later rollback
+
+5.DQL (data Query Language)
+---------------------------
+SELECT: --  this command is used to retrieve data from one or more tables in a database.
+
+==================================================================================================================================
+
+
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.14 sec)
+
+mysql> CREATE DATABASE PFS3;
+Query OK, 1 row affected (0.07 sec)
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| pfs3               |
+| sys                |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> USE PFS3
+Database changed
+mysql> CREATE DATABASE EMPLOYEE;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> CREATE TABLE EMPLOYEES(
+    -> EMPID CHAR(5)
+    -> FNAME VARCHAR(100),
+    -> LNAME VARCHAR(30),
+    -> AGE INT,
+    -> DOJ DATE,
+    -> ADDRESS TINYTEXT,
+    -> DEPT VARCHAR(20)
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FNAME VARCHAR(100),
+LNAME VARCHAR(30),
+AGE INT,
+DOJ DATE,
+ADDRESS TINYTEXT,
+DEPT' at line 3
+mysql> ^C
+mysql> CREATE TABLE EMPLOYEES(
+    -> EMPID CHAR(5),
+    -> FNAME VARCHAR(100),
+    -> LNAME VARCHAR(30),
+    -> AGE INT,
+    -> DOJ DATE,
+    -> ADDRESS TINYTEXT,
+    -> DEPT VARCHAR(20)
+    -> );
+Query OK, 0 rows affected (0.22 sec)
+
+mysql> DESCRIBE EMPLOYEES;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| EMPID   | char(5)      | YES  |     | NULL    |       |
+| FNAME   | varchar(100) | YES  |     | NULL    |       |
+| LNAME   | varchar(30)  | YES  |     | NULL    |       |
+| AGE     | int          | YES  |     | NULL    |       |
+| DOJ     | date         | YES  |     | NULL    |       |
+| ADDRESS | tinytext     | YES  |     | NULL    |       |
+| DEPT    | varchar(20)  | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+7 rows in set (0.04 sec)
+
+mysql> -- TO SHOW THE TABLE DESCRIPTIONS
+mysql> DESC EMPLOYEES;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| EMPID   | char(5)      | YES  |     | NULL    |       |
+| FNAME   | varchar(100) | YES  |     | NULL    |       |
+| LNAME   | varchar(30)  | YES  |     | NULL    |       |
+| AGE     | int          | YES  |     | NULL    |       |
+| DOJ     | date         | YES  |     | NULL    |       |
+| ADDRESS | tinytext     | YES  |     | NULL    |       |
+| DEPT    | varchar(20)  | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+7 rows in set (0.01 sec)
+
+mysql> SHOW COLUMNS FROM EMPLOYEES;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| EMPID   | char(5)      | YES  |     | NULL    |       |
+| FNAME   | varchar(100) | YES  |     | NULL    |       |
+| LNAME   | varchar(30)  | YES  |     | NULL    |       |
+| AGE     | int          | YES  |     | NULL    |       |
+| DOJ     | date         | YES  |     | NULL    |       |
+| ADDRESS | tinytext     | YES  |     | NULL    |       |
+| DEPT    | varchar(20)  | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> SAVE
+    -> Terminal close -- exit!
