@@ -1,0 +1,124 @@
+2Q. what is data , field , record , database?
+
+A. 
+>> DATA : raw facts or figures without context.
+ex: 101, Ravi , 5000, Hyderabad
+
+>> Field: smallest unit of the data in a database (column/attribute)
+ex: emp name , emp salary, emp address.
+
+>> Record: collection of related fields (row/tuple)
+ex: (111,ravi,60000,vjy)
+
+>> Database: organized collection of related records stored together.
+ex: an employee database containing all employee records.
+
+----------------------------------------------------------------------------------------------
+Client-server : 
+-------------
+client: the role of the client in client-server architecture is to send request to the server and to get the response from the server .
+
+server: server is software the role of the server in client-server arch is to take req from client.
+ If the request is valid request then it will generate some response we can handover that response to client.
+If client req is not a valid req the it will raise the errors.
+
+protocol: It has to set of rules and regulations . the role of the protocol in the client -server arch is to send request from client to server .
+-----------------------------------------------------------------------------------------------
+Data modals in DBMS:
+-------------------
+def : a data model defines how data is stored organized and manipulated in a database.
+
+1. physical data model: -- describes how data is physically stored in storage device.
+audience: Database administrators will use.
+2. Logical data model: --- defines the structure of data (entities, attributes , relationships)independent of physical storage areas.
+audience : Developers and data architects.
+3. Hierarchal data model: -- data is represented as a tree structure (parent, child relationship)
+ex:- company--> departments--> employees
+4. Network data model: -- data is represented as a graph with records(nodes) and relationships (edges)
+ex:- student enrolled in multiple courses , courses though by multiple professors
+5. Relational data model: -- data is stored in tables(relations) with rows(tuples)and column(attributes)
+ex:- 
+-------------
+student(id, name, marks, age, dept)
+department (department _id, department _name)
+6. Entity relationship model: -- a conceptual model that shows entities (things), attributes(properties) and relationships 
+======================================================================================================
+
+MYSQL INSTALLATION PROCESS
+---------------------------
+https://www.mysql.com/downloads/
+ after installation go to location
+just double click  --- > choose the yes option
+
+4 options  -- server
+, client, full, custom --- choose custome option -- > choose next button
+
+it will show available products
+such as:
+MySQL sever
+applications
+documentation
+
+go to my sql server
+
+ my sql password: root
+
+https://tinyurl.com/MySQL-batch-03
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

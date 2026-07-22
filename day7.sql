@@ -1,0 +1,349 @@
+Day-7
+Constraints
+------------------
+Constraints are rules applied to a table column in MySQL to ensure that only valid acurate data is stored in the database
+
+why do we use constraints
+1.Maintain Data Integrity
+2.To prevent invalid data Entry
+3.Avoid Duplicate records.
+4.Ensures Relations between tables make the database reliable and constraints.
+
+
+Types of Constraints:
+-----------------------
+1.Not Null: It does not allow null values  
+ 
+2.Unique key constraint: It does not allow duplicate values
+
+3.Primary key : It is the combination of unique + not null
+
+4.compsite key : It acts as a key value pair   if we want to apply primary key 
+
+5.foreign key
+
+6.check key : It check the condition
+
+7.Default constraint
+
+**Foreign Key Constraint:
+------------------------------
+1.A Foreign key is a key used to link two tables together.
+2.A foreign key is a field or collection of fields in one table that refers to the primary key in another table.
+3.The table containing the foreign key child table .And the table contains the candidate key is called referenced or parent table.  
+ 
+What are referential action:
+================================
+Referential action define what happens to child table data when parent table is updated or deleted.
+
+They are used with foreign key constraints:
+-------------------------------------------
+
+1.On delete cascade: when a parent table row is deleted all matching child row is automatic deleted.
+
+2.On Update cascade : When a parent key is updated all matching child foreign keys are updated automatically.
+
+======================================================================================================================
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 26
+Server version: 8.0.46 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> tee c:/mysql/day6.txt
+Logging to file 'c:/mysql/day6.txt'
+mysql> use pfs3;
+Database changed
+mysql> show tables;
++-----------------+
+| Tables_in_pfs3  |
++-----------------+
+| backupemployees |
+| company_staff   |
+| employees       |
+| products        |
+| student         |
++-----------------+
+5 rows in set (0.16 sec)
+
+mysql> desc student;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| SID    | int         | YES  |     | NULL    |       |
+| SNAME  | varchar(30) | YES  |     | NULL    |       |
+| MOBILE | varchar(30) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.04 sec)
+
+mysql> insert into student (111, 'arjun',70);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '111, 'arjun',70)' at line 1
+mysql> insert into student values(111,'arjun',70);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> select * from student;
++------+-----------+------------+
+| SID  | SNAME     | MOBILE     |
++------+-----------+------------+
+|  111 | mahesh    | 9346753873 |
+|  112 | JULIET    | 6281709346 |
+|  113 | ARUNKUMAR | 9876543210 |
+|  111 | arjun     | 70         |
++------+-----------+------------+
+4 rows in set (0.01 sec)
+
+mysql> insert into student values(222,'arun',40);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> create table orders(
+    -> id int(5),
+    -> ordernumber int(10),
+    -> orderdate datetime default now());
+Query OK, 0 rows affected, 2 warnings (0.10 sec)
+
+mysql> insert into order (id, ordernumber) values (12345, 563743578);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order (id, ordernumber) values (12345, 563743578)' at line 1
+mysql> insert into orders(id, ordernumber) values (12345, 563743578);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from orders;
++-------+-------------+---------------------+
+| id    | ordernumber | orderdate           |
++-------+-------------+---------------------+
+| 12345 |   563743578 | 2026-06-30 09:54:58 |
++-------+-------------+---------------------+
+1 row in set (0.07 sec)
+
+mysql> insert into orders(id, ordernumber) values (54763, 39864729);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from orders;
++-------+-------------+---------------------+
+| id    | ordernumber | orderdate           |
++-------+-------------+---------------------+
+| 12345 |   563743578 | 2026-06-30 09:54:58 |
+| 54763 |    39864729 | 2026-06-30 10:07:24 |
++-------+-------------+---------------------+
+2 rows in set (0.00 sec)
+
+mysql> create table school(
+    -> sno int(3),
+    -> sname varchar(100),
+    -> marks int(3),
+    -> primary key (sno)
+    -> );
+Query OK, 0 rows affected, 2 warnings (0.15 sec)
+
+mysql> create table library(
+    -> book_name varchar(10),
+    -> sno int(3) foreign key references school(sno)
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'foreign key references school(sno)
+)' at line 3
+mysql> create table library(
+    -> sno int(3),
+    -> book_name varchar(30),
+    -> foreign key(sno) references school(sno)
+    -> );
+Query OK, 0 rows affected, 1 warning (0.12 sec)
+
+mysql> insert into school values (111, 'malli', 90),(222, 'mahi', 56),(333, 'arun',87);
+Query OK, 3 rows affected (0.03 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from school;
++-----+-------+-------+
+| sno | sname | marks |
++-----+-------+-------+
+| 111 | malli |    90 |
+| 222 | mahi  |    56 |
+| 333 | arun  |    87 |
++-----+-------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into library values (222, 'c++');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into library values (111, 'java');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from library;
++------+-----------+
+| sno  | book_name |
++------+-----------+
+|  222 | c++       |
+|  111 | java      |
++------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> insert into library values (444, 'c');
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`pfs3`.`library`, CONSTRAINT `library_ibfk_1` FOREIGN KEY (`sno`) REFERENCES `school` (`sno`))
+mysql> delete from school where sno = 333;
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from school;
++-----+-------+-------+
+| sno | sname | marks |
++-----+-------+-------+
+| 111 | malli |    90 |
+| 222 | mahi  |    56 |
++-----+-------+-------+
+2 rows in set (0.00 sec)
+
+mysql> delete from school where sno = 111;
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`pfs3`.`library`, CONSTRAINT `library_ibfk_1` FOREIGN KEY (`sno`) REFERENCES `school` (`sno`))
+mysql> update school set sno = 555 where sno = 222;
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`pfs3`.`library`, CONSTRAINT `library_ibfk_1` FOREIGN KEY (`sno`) REFERENCES `school` (`sno`))
+mysql> delete from library where sno = 222;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from library;
++------+-----------+
+| sno  | book_name |
++------+-----------+
+|  111 | java      |
++------+-----------+
+1 row in set (0.00 sec)
+
+mysql> update library set sno = 555 where sno = 111;
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`pfs3`.`library`, CONSTRAINT `library_ibfk_1` FOREIGN KEY (`sno`) REFERENCES `school` (`sno`))
+mysql>
+mysql> update library set sno = 555 where sno = 111;
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`pfs3`.`library`, CONSTRAINT `library_ibfk_1` FOREIGN KEY (`sno`) REFERENCES `school` (`sno`))
+mysql> show tables;
++-----------------+
+| Tables_in_pfs3  |
++-----------------+
+| backupemployees |
+| company_staff   |
+| employees       |
+| library         |
+| orders          |
+| products        |
+| school          |
+| student         |
++-----------------+
+8 rows in set (0.10 sec)
+
+mysql> drop database pfs3;
+Query OK, 8 rows affected (0.38 sec)
+
+mysql> create database da3;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use da3;
+Database changed
+mysql> create table departments(
+    -> dept_id int primary key,
+    -> dept_name varchar(30)
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> create table employees(
+    -> emp_id int primary key,
+    -> name varchar(100),
+    -> dept_id int,
+    -> foreign key(dept_id)
+    -> references department(dept_id)
+    -> on delete cascade, on update cascade
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'on update cascade
+)' at line 7
+mysql> CREATE TABLE employees (
+    ->     emp_id INT PRIMARY KEY,
+    ->     name VARCHAR(100),
+    ->     dept_id INT,
+    ->     FOREIGN KEY (dept_id)
+    ->         REFERENCES department(dept_id)
+    ->         ON DELETE CASCADE
+    ->         ON UPDATE CASCADE
+    -> );^C
+mysql> CREATE TABLE employees (
+    -> emp_id int primary key,
+    -> name varchar(100),
+    -> dept_id int,
+    -> foreign key (dept_id)
+    -> references department(dept_id)
+    -> on delete cascade
+    -> on update cascade
+    -> );
+ERROR 1824 (HY000): Failed to open the referenced table 'department'
+mysql> CREATE TABLE employees (
+    -> emp_id int primary key,
+    -> name VARCHAR(100),
+    -> foreign key (dept_id)
+    -> references departments(dept_id)
+    -> on delete cascade
+    -> on update cascade
+    -> );
+ERROR 1072 (42000): Key column 'dept_id' doesn't exist in table
+mysql> CREATE TABLE employees (
+    ->  emp_id INT PRIMARY KEY,
+    ->  name VARCHAR(100),
+    ->  dept_id INT,
+    ->  FOREIGN KEY (dept_id)
+    -> REFERENCES departments(dept_id)
+    ->  ON DELETE CASCADE
+    ->  ON UPDATE CASCADE
+    -> );
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> insert into  departments values (1, 'it') , (2, 'hr'), (3, ' fianance');
+Query OK, 3 rows affected (0.03 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from departments;
++---------+-----------+
+| dept_id | dept_name |
++---------+-----------+
+|       1 | it        |
+|       2 | hr        |
+|       3 |  fianance |
++---------+-----------+
+3 rows in set (0.01 sec)
+
+mysql> insert into  departments values(1, 'IT'),(2, 'HR'),(3, 'Fianance');
+ERROR 1062 (23000): Duplicate entry '1' for key 'departments.PRIMARY'
+mysql> select * from employees;
+Empty set (0.01 sec)
+
+mysql> insert into employees values(101, 'Ravi'),(102, 'Rahul'),(103, 'Arjun');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into employees values(101, 'Ravi',1),(102, 'Rahul',2),(103, 'Arjun',3);
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from employees;
++--------+-------+---------+
+| emp_id | name  | dept_id |
++--------+-------+---------+
+|    101 | Ravi  |       1 |
+|    102 | Rahul |       2 |
+|    103 | Arjun |       3 |
++--------+-------+---------+
+3 rows in set (0.00 sec)
+
+mysql> delete from departments where dept_id = 2;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> update departments set dept_id = 5 where dept_id = 3;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employees;
++--------+-------+---------+
+| emp_id | name  | dept_id |
++--------+-------+---------+
+|    101 | Ravi  |       1 |
+|    103 | Arjun |       5 |
++--------+-------+---------+
+2 rows in set (0.00 sec)
+
+mysql>
